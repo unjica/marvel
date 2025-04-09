@@ -11,6 +11,8 @@ A React application that displays Marvel comics using the Marvel API.
 - Responsive design
 - Error handling for failed image loads
 - Price formatting utility
+- Efficient data fetching and caching with TanStack Query
+- Automatic data revalidation and background updates
 
 ## Project Structure
 
@@ -60,11 +62,24 @@ Allows filtering comics by format:
 
 ### ComicList
 Main component that:
-- Fetches comics from the Marvel API
-- Implements infinite scrolling
-- Handles loading states
-- Displays error messages
+- Fetches comics from the Marvel API using TanStack Query
+- Implements infinite scrolling with automatic data fetching
+- Handles loading states and error messages
 - Renders the grid of comic cards
+- Deduplicates comics to prevent duplicates
+- Optimizes performance with memoization
+
+## Data Management
+
+### TanStack Query Implementation
+The application uses TanStack Query for efficient data management:
+- Automatic caching of comic data
+- Background data revalidation
+- Optimized loading states
+- Deduplication of comic entries
+- Efficient infinite scrolling implementation
+- Automatic retry on failed requests
+- Configurable stale time (5 minutes) and garbage collection time (30 minutes)
 
 ## Utilities
 
@@ -98,16 +113,19 @@ The `formatPrice` utility function in `src/utils/price.ts` handles price formatt
 - Marvel API
 - CSS (with BEM methodology)
 - Axios for API requests
+- TanStack Query for data fetching and caching
 
 ## API Integration
 
-The app uses the Marvel Comics API to fetch comic data. The API key should be stored in the `.env` file as `REACT_APP_MARVEL_PUBLIC_KEY`.
+The app uses the Marvel Comics API to fetch comic data. The API key should be stored in the `.env` file as `REACT_APP_MARVEL_PUBLIC_KEY`. TanStack Query manages the API requests with automatic caching and revalidation.
 
 ## Error Handling
 
 - Failed image loads show a placeholder image
 - API errors display user-friendly error messages
 - Loading states are shown during data fetching
+- Automatic retry mechanism for failed requests
+- Deduplication of comic entries to prevent duplicates
 
 ## Future Improvements
 
@@ -116,4 +134,6 @@ The app uses the Marvel Comics API to fetch comic data. The API key should be st
 - Add favorites/bookmarks
 - Improve accessibility
 - Add unit tests
+- Implement optimistic updates for better UX
+- Add offline support with TanStack Query's persistence
 

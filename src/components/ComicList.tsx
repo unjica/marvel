@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import React, { useRef } from 'react';
+import { useInfiniteQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { Comic } from '../types/types';
 import ComicCard from './ComicCard';
@@ -9,69 +10,46 @@ interface ComicListProps {
 }
 
 const ComicList: React.FC<ComicListProps> = ({ activeFormat }) => {
-  const [comics, setComics] = useState<Comic[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
-  const [offset, setOffset] = useState<number>(0);
-  const [hasMore, setHasMore] = useState<boolean>(true);
-  
-  // Create a ref for the observer target element
   const observerTarget = useRef<HTMLDivElement>(null);
-  // Create a ref for the top of the list
   const topRef = useRef<HTMLDivElement>(null);
   
   const limit = 20;
   const publicKey = process.env.REACT_APP_MARVEL_PUBLIC_KEY;
   
-  const fetchComics = useCallback(async (newOffset: number = 0) => {
-    setLoading(true);
-    try {
-      let url = `https://gateway.marvel.com/v1/public/comics?apikey=${publicKey}&limit=${limit}&offset=${newOffset}`;
-      
-      if (activeFormat !== 'All') {
-        url += `&format=${activeFormat.toLowerCase()}`;
-      }
-      
-      const response = await axios.get(url);
-      const newComics = response.data.data.results;
-      
-      if (newOffset === 0) {
-        setComics(newComics);
-      } else {
-        setComics(prevComics => {
-          const existingComicsMap = new Map(prevComics.map(comic => [comic.id, comic]));
-          
-          const uniqueNewComics = newComics.filter((comic: Comic) => !existingComicsMap.has(comic.id));
-          
-          return [...prevComics, ...uniqueNewComics];
-        });
-      }
-      
-      setHasMore(newComics.length === limit);
-      setError(null); // Clear any previous errors on successful fetch
-    } catch (err) {
-      setError('Failed to fetch comics. Please try again later.');
-      setHasMore(false); // Stop fetching more pages on error
-      console.error('Error fetching comics:', err);
-    } finally {
-      setLoading(false);
+  const fetchComics = async ({ pageParam = 0 }) => {
+    let url = `https://gateway.marvel.com/v1/public/comics?apikey=${publicKey}&limit=${limit}&offset=${pageParam}`;
+    
+    if (activeFormat !== 'All') {
+      url += `&format=${activeFormat.toLowerCase()}`;
     }
-  }, [activeFormat, publicKey, limit]);
-  
-  const loadMore = useCallback(() => {
-    if (!loading && hasMore && !error) { // Don't load more if there's an error
-      const newOffset = offset + limit;
-      setOffset(newOffset);
-      fetchComics(newOffset);
-    }
-  }, [loading, hasMore, offset, limit, fetchComics, error]);
-  
+    
+    const response = await axios.get(url);
+    return response.data.data;
+  };
+
+  const {
+    data,
+    error,
+    fetchNextPage,
+    hasNextPage,
+    isFetching,
+    isFetchingNextPage,
+  } = useInfiniteQuery({
+    queryKey: ['comics', activeFormat],
+    queryFn: fetchComics,
+    getNextPageParam: (lastPage, pages) => {
+      if (lastPage.results.length < limit) return undefined;
+      return pages.length * limit;
+    },
+    initialPageParam: 0,
+  });
+
   // Set up the intersection observer for infinite scrolling
-  useEffect(() => {
+  React.useEffect(() => {
     const observer = new IntersectionObserver(
       entries => {
-        if (entries[0].isIntersecting && hasMore && !loading && !error) { // Don't load more if there's an error
-          loadMore();
+        if (entries[0].isIntersecting && hasNextPage && !isFetchingNextPage) {
+          fetchNextPage();
         }
       },
       { threshold: 1.0 }
@@ -87,53 +65,49 @@ const ComicList: React.FC<ComicListProps> = ({ activeFormat }) => {
         observer.unobserve(currentTarget);
       }
     };
-  }, [loadMore, hasMore, loading, error]);
-  
-  // Reset when filter changes and scroll to top
-  useEffect(() => {
-    // Reset pagination
-    setOffset(0);
-    // Clear existing comics first
-    setComics([]);
-    // Set loading state to show loading indicator
-    setLoading(true);
-    // Clear any previous errors
-    setError(null);
-    // Reset hasMore
-    setHasMore(true);
-    // Fetch new comics with the new filter
-    fetchComics(0);
-    
-    // Scroll back to top when filter changes
+  }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
+
+  // Scroll to top when filter changes
+  React.useEffect(() => {
     window.scrollTo({
       top: 0,
       behavior: 'smooth'
     });
-  }, [activeFormat, fetchComics]);
-  
+  }, [activeFormat]);
+
+  const comics = React.useMemo(() => {
+    const uniqueComics = new Map<number, Comic>();
+    data?.pages.forEach(page => {
+      page.results.forEach((comic: Comic) => {
+        if (!uniqueComics.has(comic.id)) {
+          uniqueComics.set(comic.id, comic);
+        }
+      });
+    });
+    return Array.from(uniqueComics.values());
+  }, [data]);
+
   return (
     <div className="comic-list">
-      {/* Reference to the top of the list */}
       <div ref={topRef} className="top-ref"></div>
       
       <Breadcrumbs activeFormat={activeFormat} />
       
-      {error && <div className="error">{error}</div>}
+      {error && <div className="error">Failed to fetch comics. Please try again later.</div>}
       
       <div className="comic-list__grid">
-        {comics.map((comic, index) => (
-          <ComicCard key={`${comic.id}-${index}`} comic={comic} />
+        {comics.map((comic: Comic) => (
+          <ComicCard key={comic.id} comic={comic} />
         ))}
       </div>
       
-      {loading && (
+      {(isFetching || isFetchingNextPage) && (
         <div className="loading">
           <span className="loader"></span>
         </div>
       )}
       
-      {/* Intersection observer target element */}
-      {hasMore && <div ref={observerTarget} className="observer"></div>}
+      {hasNextPage && <div ref={observerTarget} className="observer"></div>}
     </div>
   );
 };
