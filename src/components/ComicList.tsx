@@ -48,8 +48,10 @@ const ComicList: React.FC<ComicListProps> = ({ activeFormat }) => {
       }
       
       setHasMore(newComics.length === limit);
+      setError(null); // Clear any previous errors on successful fetch
     } catch (err) {
       setError('Failed to fetch comics. Please try again later.');
+      setHasMore(false); // Stop fetching more pages on error
       console.error('Error fetching comics:', err);
     } finally {
       setLoading(false);
@@ -57,18 +59,18 @@ const ComicList: React.FC<ComicListProps> = ({ activeFormat }) => {
   }, [activeFormat, publicKey, limit]);
   
   const loadMore = useCallback(() => {
-    if (!loading && hasMore) {
+    if (!loading && hasMore && !error) { // Don't load more if there's an error
       const newOffset = offset + limit;
       setOffset(newOffset);
       fetchComics(newOffset);
     }
-  }, [loading, hasMore, offset, limit, fetchComics]);
+  }, [loading, hasMore, offset, limit, fetchComics, error]);
   
   // Set up the intersection observer for infinite scrolling
   useEffect(() => {
     const observer = new IntersectionObserver(
       entries => {
-        if (entries[0].isIntersecting && hasMore && !loading) {
+        if (entries[0].isIntersecting && hasMore && !loading && !error) { // Don't load more if there's an error
           loadMore();
         }
       },
@@ -85,7 +87,7 @@ const ComicList: React.FC<ComicListProps> = ({ activeFormat }) => {
         observer.unobserve(currentTarget);
       }
     };
-  }, [loadMore, hasMore, loading]);
+  }, [loadMore, hasMore, loading, error]);
   
   // Reset when filter changes and scroll to top
   useEffect(() => {
@@ -95,6 +97,10 @@ const ComicList: React.FC<ComicListProps> = ({ activeFormat }) => {
     setComics([]);
     // Set loading state to show loading indicator
     setLoading(true);
+    // Clear any previous errors
+    setError(null);
+    // Reset hasMore
+    setHasMore(true);
     // Fetch new comics with the new filter
     fetchComics(0);
     
