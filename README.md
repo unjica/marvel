@@ -1,70 +1,119 @@
-# Getting Started with Create React App
+# Marvel Comics App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A React application that displays Marvel comics using the Marvel API.
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+- Display a list of Marvel comics
+- Infinite scrolling for loading more comics
+- Filter comics by format (Comic, Magazine, Digital Comic)
+- View comic details in a modal
+- Responsive design
+- Error handling for failed image loads
+- Price formatting utility
 
-### `npm start`
+## Project Structure
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+```
+src/
+├── components/
+│   ├── ComicCard.tsx       # Card component for displaying individual comics
+│   ├── ComicDetailModal.tsx # Modal for displaying comic details
+│   ├── ComicFilter.tsx     # Component for filtering comics by format
+│   ├── ComicList.tsx       # Main component for displaying the list of comics
+│   └── Header.tsx          # Header component with logo and filters
+├── types/
+│   └── types.ts            # TypeScript type definitions
+├── utils/
+│   └── price.ts            # Utility functions for price formatting
+└── App.tsx                 # Main application component
+```
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Components
 
-### `npm test`
+### ComicCard
+Displays a single comic with:
+- Thumbnail image
+- Title
+- Price
+- "More info" button to open the detail modal
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### ComicDetailModal
+Shows detailed information about a comic:
+- Large thumbnail
+- Title
+- Release date
+- Format
+- Page count
+- Characters
+- Creators
+- Diamond code
+- Price
+- Close button
 
-### `npm run build`
+### ComicFilter
+Allows filtering comics by format:
+- All
+- Comic
+- Magazine
+- Digital Comic
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### ComicList
+Main component that:
+- Fetches comics from the Marvel API
+- Implements infinite scrolling
+- Handles loading states
+- Displays error messages
+- Renders the grid of comic cards
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Utilities
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Price Formatting
+The `formatPrice` utility function in `src/utils/price.ts` handles price formatting:
+- Returns 'N/A' if no prices are available
+- Returns 'Free' if the price is 0
+- Returns the formatted price with € symbol otherwise
+- Prioritizes print price if available, otherwise uses the lowest price
 
-### `npm run eject`
+## Getting Started
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+1. Clone the repository
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Create a `.env` file in the root directory with your Marvel API public key:
+   ```
+   REACT_APP_MARVEL_PUBLIC_KEY=your_public_key_here
+   ```
+4. Start the development server:
+   ```bash
+   npm start
+   ```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Technologies Used
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+- React
+- TypeScript
+- Marvel API
+- CSS (with BEM methodology)
+- Axios for API requests
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## API Integration
 
-## Learn More
+The app uses the Marvel Comics API to fetch comic data. The API key should be stored in the `.env` file as `REACT_APP_MARVEL_PUBLIC_KEY`.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Error Handling
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+- Failed image loads show a placeholder image
+- API errors display user-friendly error messages
+- Loading states are shown during data fetching
 
-### Code Splitting
+## Future Improvements
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+- Add search functionality
+- Implement sorting options
+- Add favorites/bookmarks
+- Improve accessibility
+- Add unit tests
 
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)

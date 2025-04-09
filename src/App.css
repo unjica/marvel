@@ -1,38 +1,348 @@
-.App {
-  text-align: center;
+/* Google Fonts Import */
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap');
+
+/* CSS Reset and Global Styles */
+:root {
+  --primary-color: #DD2C2C;
+  --gray-color: #828282;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+body {
+  font-family: 'Quicksand';
 }
 
-.App-header {
-  background-color: #282c34;
+/* Layout */
+.app-layout {
+  display: flex;
+  flex-direction: column;
   min-height: 100vh;
+}
+
+.app-header {
+  background-color: #000;
+  color: white;
+  padding: 23px;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.app-header__content {
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 15px;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .app-header__content {
+    flex-direction: row;
+  }
+}
+
+/* Filter */
+.filter {
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.filter__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+}
+
+.filter__button,
+.filter__button--active {
+  background-color: transparent;
   color: white;
+  border: none;
+  padding: 10px 20px;
+  transition: all 0.2s;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 18px;
 }
 
-.App-link {
-  color: #61dafb;
+.filter__button--active {
+  color: var(--primary-color);
 }
 
-@keyframes App-logo-spin {
-  from {
+.filter__button:hover {
+  color: var(--primary-color);
+}
+
+/* Main Content */
+.app-main {
+  flex: 1;
+  padding: 15px;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* Comic List */
+.comic-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.comic-list__breadcrumbs {
+  padding: 10px 0;
+  font-size: 18px;
+  font-weight: bold;
+  color: var(--gray-color);
+}
+
+.comic-list__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 15px;
+}
+
+@media (min-width: 768px) {
+  .comic-list__grid {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  }
+}
+
+/* Comic Card */
+.comic-card {
+  border-radius: 5px;
+  border: 2px solid #1D1D1D;
+  transition: transform 0.3s, box-shadow 0.3s;
+  display: flex;
+  flex-direction: column;
+  padding: 12px 25px;
+}
+
+.comic-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px #1D1D1D33;
+}
+
+.comic-card__image {
+  aspect-ratio: 9/16;
+  width: 100%;
+  margin: 0 auto;
+  object-fit: contain;
+  object-position: center;
+}
+
+.comic-card__content {
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  align-items: center;
+  gap: 10px;
+}
+
+.comic-card__title {
+  font-size: 15px;
+  margin-bottom: auto;
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;  
+  overflow: hidden;
+  text-align: center;
+}
+
+.comic-card__price {
+  color: var(--primary-color);
+  font-weight: bold;
+  font-size: 19px;
+}
+
+.comic-card__action {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 17px;
+  transition: background-color 0.2s;
+}
+
+.comic-card__action:hover {
+  background-color: var(--primary-color);
+}
+
+/* Modal */
+.modal {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
+  padding: 10px;
+}
+
+.modal__content {
+  background-color: white;
+  border-radius: 5px;
+  width: 100%;
+  max-width: 600px;
+  max-height: 90vh;
+  overflow: hidden;
+  position: relative;
+}
+
+.modal__close {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  width: 30px;
+  height: 30px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--primary-color);
+}
+
+.modal__details h2 {
+  font-size: 17px;
+}
+
+.modal__body {
+  padding: 10px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  overflow: hidden;
+}
+
+@media (min-width: 768px) {
+  .modal__body {
+    flex-direction: row;
+  }
+}
+
+.modal__thumbnail {
+  flex: 0 0 auto;
+  width: 100%;
+  max-width: 150px;
+  margin: 0 auto;
+}
+
+.modal__thumbnail img {
+  width: 100%;
+}
+
+.modal__details {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 100%;
+  overflow: hidden;
+}
+
+.modal__details-container {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  width: 100%;
+  overflow: hidden;
+}
+
+.modal__details-container p {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
+}
+
+.modal__title {
+  font-size: 17px;
+  font-weight: bold;
+}
+
+.modal__description {
+  color: var(--gray-color);
+  line-height: 1.5;
+}
+
+.modal__price-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.modal__price {
+  color: var(--primary-color);
+  font-weight: bold;
+  font-size: 19px;
+}
+
+/* Footer */
+.app-footer {
+  background-color: #000;
+  color: white;
+  padding: 15px;
+  text-align: center;
+  margin-top: auto;
+}
+
+/* Utility Classes */
+.error {
+  color: var(--primary-color);
+  text-align: center;
+  padding: 15px;
+  font-weight: bold;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  padding: 30px;
+}
+
+.loader {
+  width: 48px;
+  height: 48px;
+  border: 5px solid #FFF;
+  border-bottom-color: var(--primary-color);
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+
+@keyframes rotation {
+  0% {
     transform: rotate(0deg);
   }
-  to {
+  100% {
     transform: rotate(360deg);
   }
+}
+
+.observer {
+  height: 1px;
+  width: 100%;
+}
+
+.top-ref {
+  margin-top: -15px;
 }
