@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Comic } from '../types/types';
 import { formatPrice } from '../utils/price';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -19,21 +19,64 @@ interface Creator {
 }
 
 const ComicDetailModal: React.FC<ComicDetailModalProps> = ({ comic, isOpen, onClose }) => {
+  const modalRef = useRef<HTMLDivElement>(null);
+  const firstFocusableElementRef = useRef<HTMLButtonElement>(null);
+  const lastFocusableElementRef = useRef<HTMLButtonElement>(null);
+
+  // Focus trap implementation
   useEffect(() => {
-    const handleEscKey = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
+    if (isOpen) {
+      // Focus the first element when modal opens
+      firstFocusableElementRef.current?.focus();
+
+      const handleKeyDown = (e: KeyboardEvent) => {
+        if (e.key === 'Tab') {
+          if (e.shiftKey) {
+            // Shift + Tab
+            if (document.activeElement === firstFocusableElementRef.current) {
+              e.preventDefault();
+              lastFocusableElementRef.current?.focus();
+            }
+          } else {
+            // Tab
+            if (document.activeElement === lastFocusableElementRef.current) {
+              e.preventDefault();
+              firstFocusableElementRef.current?.focus();
+            }
+          }
+        } else if (e.key === 'Escape') {
+          onClose();
+        }
+      };
+
+      document.addEventListener('keydown', handleKeyDown);
+      return () => document.removeEventListener('keydown', handleKeyDown);
+    }
+  }, [isOpen, onClose]);
+
+  // Handle click outside
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
         onClose();
       }
     };
 
     if (isOpen) {
-      window.addEventListener('keydown', handleEscKey);
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => document.removeEventListener('mousedown', handleClickOutside);
     }
-
-    return () => {
-      window.removeEventListener('keydown', handleEscKey);
-    };
   }, [isOpen, onClose]);
+
+  // Prevent body scroll when modal is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+      return () => {
+        document.body.style.overflow = 'unset';
+      };
+    }
+  }, [isOpen]);
 
   const getReleaseDate = (dates: { type: string, date: string }[]) => {
     const releaseDate = dates.find(date => date.type === 'focDate');
@@ -72,6 +115,7 @@ const ComicDetailModal: React.FC<ComicDetailModalProps> = ({ comic, isOpen, onCl
           {/* Modal */}
           <motion.div
             key="modal-content"
+            ref={modalRef}
             className="bg-white rounded-lg shadow-xl max-w-2xl w-full mx-4 relative w-fit md:min-w-[650px]"
             initial={{ opacity: 0, scale: 0.95, y: -20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -79,6 +123,7 @@ const ComicDetailModal: React.FC<ComicDetailModalProps> = ({ comic, isOpen, onCl
             transition={{ duration: 0.25 }}
           >
             <button 
+              ref={firstFocusableElementRef}
               className="absolute top-1 right-1 text-marvel-red"
               onClick={onClose}
               aria-label="Close modal"
@@ -94,16 +139,13 @@ const ComicDetailModal: React.FC<ComicDetailModalProps> = ({ comic, isOpen, onCl
                 alt={comic.title}
                 className="w-[163px] object-contain"
                 loading="lazy"
+                decoding="async"
               />
               
               <div className="w-full md:w-2/3">
                 <h2 id="comic-modal-title" className="font-bold mb-4">{comic.title}</h2>
 
-                <div 
-                  className="space-y-2 mb-6 text-sm" 
-                  role="region" 
-                  aria-label="Comic details"
-                >
+                <div className="space-y-2 mb-6 text-sm" role="region" aria-label="Comic details">
                   <p className="truncate text-ellipsis"><b>Year of release:</b> {getReleaseDate(comic.dates)}</p>
                   <p className="truncate text-ellipsis"><b>Format:</b> {comic.format || 'Unknown'}</p>
                   <p className="truncate text-ellipsis"><b>Pages:</b> {comic.pageCount || 'Unknown'}</p>
@@ -125,6 +167,7 @@ const ComicDetailModal: React.FC<ComicDetailModalProps> = ({ comic, isOpen, onCl
                 <div className="flex items-center justify-between">
                   <p className="text-xl font-bold">{formatPrice(comic.prices)}</p>
                   <button 
+                    ref={lastFocusableElementRef}
                     className="btn"
                     onClick={onClose}
                     aria-label="Close modal"
