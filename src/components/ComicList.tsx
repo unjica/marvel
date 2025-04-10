@@ -1,11 +1,11 @@
 import React, { useRef } from 'react';
 import { useInfiniteQuery } from '@tanstack/react-query';
-import axios from 'axios';
 import { Comic } from '../types/types';
 import ComicCard from './ComicCard';
 import SkeletonCard from './SkeletonCard';
 import Breadcrumbs from './Breadcrumbs';
-import md5 from 'md5';
+import ErrorMessage from './ErrorMessage';
+import { fetchComics } from '../utils/api';
 
 interface ComicListProps {
   activeFormat: string;
@@ -15,31 +15,6 @@ const ComicList: React.FC<ComicListProps> = ({ activeFormat }) => {
   const observerTarget = useRef<HTMLDivElement>(null);
   const topRef = useRef<HTMLDivElement>(null);
   
-  const limit = 20;
-  const publicKey = process.env.REACT_APP_MARVEL_PUBLIC_KEY;
-  const privateKey = process.env.REACT_APP_MARVEL_PRIVATE_KEY;
-  const isProduction = process.env.REACT_APP_NODE_ENV === 'production';
-  
-  const fetchComics = async ({ pageParam = 0 }) => {
-    let url = `https://gateway.marvel.com/v1/public/comics?apikey=${publicKey}&limit=${limit}&offset=${pageParam}`;
-    
-    if (isProduction) {
-      if (!privateKey) {
-        throw new Error('Marvel API private key is not configured');
-      }
-      const ts = new Date().getTime();
-      const hash = md5(ts + privateKey + publicKey);
-      url += `&ts=${ts}&hash=${hash}`;
-    }
-    
-    if (activeFormat !== 'All') {
-      url += `&format=${activeFormat.toLowerCase()}`;
-    }
-    
-    const response = await axios.get(url);
-    return response.data.data;
-  };
-
   const {
     data,
     error,
@@ -47,12 +22,14 @@ const ComicList: React.FC<ComicListProps> = ({ activeFormat }) => {
     hasNextPage,
     isFetching,
     isFetchingNextPage,
+    refetch,
+    isError,
   } = useInfiniteQuery({
     queryKey: ['comics', activeFormat],
-    queryFn: fetchComics,
-    getNextPageParam: (lastPage, pages) => {
-      if (lastPage.results.length < limit) return undefined;
-      return pages.length * limit;
+    queryFn: ({ pageParam = 0 }) => fetchComics(activeFormat, pageParam),
+    getNextPageParam: (lastPage) => {
+      const offset = lastPage.offset + lastPage.limit;
+      return offset < lastPage.total ? offset : undefined;
     },
     initialPageParam: 0,
   });
@@ -65,7 +42,7 @@ const ComicList: React.FC<ComicListProps> = ({ activeFormat }) => {
           fetchNextPage();
         }
       },
-      { threshold: 1.0 }
+      { threshold: 0.1 }
     );
     
     const currentTarget = observerTarget.current;
@@ -106,23 +83,27 @@ const ComicList: React.FC<ComicListProps> = ({ activeFormat }) => {
     ));
   };
 
+  if (isError && error instanceof Error) {
+    return (
+      <div className="container mx-auto px-4 py-8">
+        <div ref={topRef}></div>
+        <Breadcrumbs activeFormat={activeFormat} />
+        <ErrorMessage 
+          error={error}
+          onRetry={refetch}
+          onReload={() => window.location.reload()}
+        />
+      </div>
+    );
+  }
+
   return (
     <div className="container mx-auto px-4 py-8">
       <div ref={topRef}></div>
       
       <Breadcrumbs activeFormat={activeFormat} />
       
-      {error && (
-        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
-          Failed to fetch comics. Please try again later.
-        </div>
-      )}
-      
-      <div 
-        className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6" 
-        id="comic-list" 
-        role="list"
-      >
+      <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6" id="comic-list" role="list">
         {isFetching && !isFetchingNextPage ? (
           // Show skeleton cards for initial load
           renderSkeletonCards(20, 'skeleton')

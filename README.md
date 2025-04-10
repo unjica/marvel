@@ -61,9 +61,22 @@ The application implements comprehensive accessibility features to ensure it can
 - Lazy loading with proper fallbacks
 
 ### Error Handling
-- Error messages with proper `role="alert"`
-- Clear error state indication
-- Accessible error recovery options
+- Failed image loads show a placeholder image
+- API errors display user-friendly error messages with:
+  - Clear error descriptions
+  - Retry button for immediate recovery
+  - Page reload option for complete reset
+  - Specific error messages for different failure scenarios:
+    - Invalid API credentials
+    - Rate limiting (too many requests)
+    - No comics found
+    - General network errors
+- Loading states are shown during data fetching
+- Automatic retry mechanism for failed requests
+- Deduplication of comic entries to prevent duplicates
+- Invalid dates are handled gracefully with 'Unknown' fallback
+- Network errors are handled with appropriate user feedback
+- Comprehensive error recovery options
 
 ### Responsive Design
 - Accessible mobile menu implementation
@@ -87,70 +100,110 @@ src/
 │   ├── ComicFilter.tsx     # Component for filtering comics by format
 │   ├── ComicList.tsx       # Main component for displaying the list of comics
 │   ├── SkeletonCard.tsx    # Loading skeleton component with animations
-│   └── Header.tsx          # Header component with logo and filters
+│   ├── Header.tsx          # Header component with logo and filters
+│   ├── Breadcrumbs.tsx     # Navigation breadcrumbs component
+│   └── ErrorMessage.tsx    # Reusable error message component with retry functionality
 ├── types/
 │   └── types.ts            # TypeScript type definitions for API responses
 ├── utils/
+│   ├── api.ts              # API utility functions for Marvel API integration
 │   ├── price.ts            # Utility functions for price formatting
 │   └── storage.ts          # Utility functions for LocalStorage operations
 ├── App.tsx                 # Main application component
-└── index.tsx               # Application entry point
+├── index.tsx               # Application entry point
+└── index.css               # Global styles and Tailwind imports
 ```
 
-## Components
+### Components
 
-### ComicCard
-Displays a single comic with:
-- Lazy loaded thumbnail image
-- Title
-- Price
-- "More info" button to open the detail modal
-- Responsive design for different screen sizes
+#### ComicCard
+Displays individual comic information with:
+- Responsive image loading with fallback
+- Price formatting
+- Accessibility attributes
+- Hover animations
+- Loading state handling
 
-### SkeletonCard
-Loading placeholder component that:
-- Matches the layout of ComicCard
-- Uses Framer Motion for smooth animations
-- Implements a pulsing animation effect
-- Shows placeholders for image, title, price, and button
-- Provides visual feedback during loading states
+#### ComicDetailModal
+Modal component for detailed comic view with:
+- Framer Motion animations
+- Focus trap for accessibility
+- Keyboard navigation
+- Responsive design
+- Loading states
+- Error handling
 
-### ComicDetailModal
-Shows detailed information about a comic:
-- Large thumbnail
-- Title
-- Release date (formatted in Slovenian locale)
-- Format
-- Page count
-- Characters list
-- Creators list with roles
-- Diamond code (if available)
-- Price
-- Close button with hover effect
-- ESC key support for closing
-- Smooth animations using Framer Motion for opening/closing and transitions
+#### ComicFilter
+Format filtering component with:
+- Dropdown interface
+- State management
+- Accessibility support
+- Responsive design
 
-### ComicFilter
-Allows filtering comics by format:
-- All
-- Comic
-- Magazine
-- Digital Comic
-- Persists selected filter in LocalStorage for returning users
-- Automatically restores last used filter on page load
+#### ComicList
+Main list component with:
+- Infinite scrolling
+- Loading states
+- Error handling
+- Responsive grid layout
+- Accessibility support
 
-### ComicList
-Main component that:
-- Fetches comics from the Marvel API using TanStack Query
-- Implements infinite scrolling with automatic data fetching
-- Handles loading states and error messages
-- Renders the grid of comic cards
-- Deduplicates comics to prevent duplicates
-- Optimizes performance with memoization
-- Implements lazy loading for images
-- Shows loading skeletons during data fetching:
-  - 20 skeleton cards when fetching more comics
-  - Smooth transitions between loading and loaded states
+#### SkeletonCard
+Loading state component with:
+- Pulse animations
+- Responsive design
+- Matches ComicCard layout
+
+#### Header
+Top navigation component with:
+- Logo display
+- Filter integration
+- Responsive design
+- Accessibility support
+
+#### Breadcrumbs
+Navigation component with:
+- Current page context
+- Responsive design
+- Accessibility support
+
+#### ErrorMessage
+Reusable error component with:
+- User-friendly error messages
+- Retry functionality
+- Accessibility support
+- Responsive design
+- Consistent styling
+
+### Utilities
+
+#### api.ts
+Marvel API integration with:
+- Axios configuration
+- Error handling
+- Authentication
+- Response typing
+
+#### price.ts
+Price formatting utilities:
+- Currency conversion
+- Formatting options
+- Fallback handling
+
+#### storage.ts
+LocalStorage utilities:
+- Data persistence
+- Type safety
+- Error handling
+
+### Types
+
+#### types.ts
+TypeScript definitions for:
+- API responses
+- Component props
+- Utility functions
+- State management
 
 ## Styling
 
@@ -278,12 +331,21 @@ The app uses the Marvel Comics API to fetch comic data. The API key should be st
 ## Error Handling
 
 - Failed image loads show a placeholder image
-- API errors display user-friendly error messages
+- API errors display user-friendly error messages with:
+  - Clear error descriptions
+  - Retry button for immediate recovery
+  - Page reload option for complete reset
+  - Specific error messages for different failure scenarios:
+    - Invalid API credentials
+    - Rate limiting (too many requests)
+    - No comics found
+    - General network errors
 - Loading states are shown during data fetching
 - Automatic retry mechanism for failed requests
 - Deduplication of comic entries to prevent duplicates
 - Invalid dates are handled gracefully with 'Unknown' fallback
 - Network errors are handled with appropriate user feedback
+- Comprehensive error recovery options
 
 ## Future Improvements
 
