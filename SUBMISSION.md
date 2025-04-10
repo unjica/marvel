@@ -109,4 +109,45 @@ This implementation follows all the requirements specified in the challenge:
 - The application includes proper error boundaries and loading states
 - The code is organized in a clean, modular structure
 - Performance optimizations include lazy loading and efficient animations
-- Loading skeletons provide a smooth user experience during data fetching 
+- Loading skeletons provide a smooth user experience during data fetching
+
+## API Integration
+
+The app uses the Marvel Comics API with environment-specific authentication:
+
+### Development Environment
+- Uses simplified authentication with just the public key
+- Faster development and testing workflow
+- No private key required for local development
+
+### Production Environment
+- Implements full Marvel API authentication
+- Requires both public and private keys
+- Generates secure hash using timestamp and private key
+- Includes all required parameters (apikey, ts, hash)
+
+### Configuration
+- Public key should be stored in the `.env` file as `REACT_APP_MARVEL_PUBLIC_KEY`
+- Private key should be stored in the `.env` file as `REACT_APP_MARVEL_PRIVATE_KEY`
+- Both keys can be obtained from the Marvel Developer Portal (https://developer.marvel.com/)
+
+### Error Handling
+- Clear error messages for missing private key in production
+- Graceful fallback to public key authentication in development
+- User-friendly error notifications for API failures
+- Automatic retry mechanism for failed requests
+
+### Authentication Process
+1. The app generates a timestamp for each request
+2. Creates a hash using the timestamp, private key, and public key
+3. Includes all three parameters (apikey, ts, hash) in the API request
+4. TanStack Query manages the API requests with automatic caching and revalidation
+
+### Potential Issues
+- 401 (Unauthorized) errors may occur if:
+  - Either API key is missing or incorrect
+  - The Marvel Developer Portal is down
+  - API keys are expired
+  - Environment variables are not properly configured in production
+- The app includes error handling for authentication failures
+- Users are notified when API requests fail 

@@ -156,14 +156,49 @@ The `formatPrice` utility function in `src/utils/price.ts` handles price formatt
    ```bash
    npm install
    ```
-3. Create a `.env` file in the root directory with your Marvel API public key:
+3. Create a `.env` file in the root directory with your Marvel API keys:
    ```
    REACT_APP_MARVEL_PUBLIC_KEY=your_public_key_here
+   REACT_APP_MARVEL_PRIVATE_KEY=your_private_key_here
    ```
+   Note: 
+   - For local development, only the public key is required
+   - For production, both public and private keys are required
+   - You can obtain these from the Marvel Developer Portal (https://developer.marvel.com/)
+
 4. Start the development server:
    ```bash
    npm start
    ```
+
+## API Authentication
+
+The app uses different authentication methods based on the environment:
+
+### Development Environment
+- Only requires the public key (`REACT_APP_MARVEL_PUBLIC_KEY`)
+- Simpler authentication for local development and testing
+
+### Production Environment
+- Requires both public and private keys
+- Uses timestamp and hash-based authentication
+- More secure but requires additional configuration
+
+### Troubleshooting
+
+#### Marvel API Authentication Issues
+If you're getting 401 (Unauthorized) errors:
+- In development: Verify your public key is correctly set
+- In production: Verify both public and private keys are correctly set
+- Check that the Marvel Developer Portal is accessible
+- Ensure your API keys are valid and not expired
+
+#### Marvel Developer Portal Issues
+If the Marvel Developer Portal is down:
+1. Development can continue with just the public key
+2. Production deployment will require both keys
+3. Check your email for previous API key communications
+4. Look for saved API keys in your browser's password manager
 
 ## Technologies Used
 

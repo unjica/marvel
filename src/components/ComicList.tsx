@@ -5,6 +5,7 @@ import { Comic } from '../types/types';
 import ComicCard from './ComicCard';
 import SkeletonCard from './SkeletonCard';
 import Breadcrumbs from './Breadcrumbs';
+import md5 from 'md5';
 
 interface ComicListProps {
   activeFormat: string;
@@ -16,9 +17,20 @@ const ComicList: React.FC<ComicListProps> = ({ activeFormat }) => {
   
   const limit = 20;
   const publicKey = process.env.REACT_APP_MARVEL_PUBLIC_KEY;
+  const privateKey = process.env.REACT_APP_MARVEL_PRIVATE_KEY;
+  const isProduction = process.env.REACT_APP_NODE_ENV === 'production';
   
   const fetchComics = async ({ pageParam = 0 }) => {
     let url = `https://gateway.marvel.com/v1/public/comics?apikey=${publicKey}&limit=${limit}&offset=${pageParam}`;
+    
+    if (isProduction) {
+      if (!privateKey) {
+        throw new Error('Marvel API private key is not configured');
+      }
+      const ts = new Date().getTime();
+      const hash = md5(ts + privateKey + publicKey);
+      url += `&ts=${ts}&hash=${hash}`;
+    }
     
     if (activeFormat !== 'All') {
       url += `&format=${activeFormat.toLowerCase()}`;
