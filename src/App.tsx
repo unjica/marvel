@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import Header from './components/Header';
 import ComicList from './components/ComicList';
+import { getStoredFilter } from './utils/storage';
 
 // Create a client
 const queryClient = new QueryClient({
@@ -17,7 +18,7 @@ const queryClient = new QueryClient({
 
 const App: React.FC = () => {
   const formats = ['Comic', 'Magazine', 'Digital Comic'];
-  const [activeFormat, setActiveFormat] = useState<string>('All');
+  const [activeFormat, setActiveFormat] = useState<string>(getStoredFilter());
 
   return (
     <QueryClientProvider client={queryClient}>

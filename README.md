@@ -6,6 +6,7 @@ A React application that displays Marvel comics using the Marvel API.
 
 - Display a list of Marvel comics with infinite scrolling
 - Filter comics by format (Comic, Magazine, Digital Comic)
+- Persist filter selection in LocalStorage for better user experience
 - View detailed comic information in a modal with smooth animations
 - Responsive design with Tailwind CSS
 - Error handling for failed image loads
@@ -31,7 +32,8 @@ src/
 ├── types/
 │   └── types.ts            # TypeScript type definitions for API responses
 ├── utils/
-│   └── price.ts            # Utility functions for price formatting
+│   ├── price.ts            # Utility functions for price formatting
+│   └── storage.ts          # Utility functions for LocalStorage operations
 ├── App.tsx                 # Main application component
 └── index.tsx               # Application entry point
 ```
@@ -75,6 +77,8 @@ Allows filtering comics by format:
 - Comic
 - Magazine
 - Digital Comic
+- Persists selected filter in LocalStorage for returning users
+- Automatically restores last used filter on page load
 
 ### ComicList
 Main component that:

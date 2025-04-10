@@ -1,4 +1,5 @@
 import React from 'react';
+import { setStoredFilter } from '../utils/storage';
 
 interface ComicFilterProps {
   formats: string[];
@@ -7,6 +8,11 @@ interface ComicFilterProps {
 }
 
 const ComicFilter: React.FC<ComicFilterProps> = ({ formats, activeFormat, setActiveFormat }) => {
+  const handleFormatChange = (format: string) => {
+    setActiveFormat(format);
+    setStoredFilter(format);
+  };
+
   return (
     <div className="flex flex-col md:flex-row md:space-x-2">
       <div className="flex flex-col md:flex-row gap-2">
@@ -16,7 +22,7 @@ const ComicFilter: React.FC<ComicFilterProps> = ({ formats, activeFormat, setAct
               ? 'text-marvel-red' 
               : 'text-white hover:text-marvel-red'
           }`}
-          onClick={() => setActiveFormat('All')}
+          onClick={() => handleFormatChange('All')}
         >
           All
         </button>
@@ -28,7 +34,7 @@ const ComicFilter: React.FC<ComicFilterProps> = ({ formats, activeFormat, setAct
                 ? 'text-marvel-red' 
                 : 'text-white hover:text-marvel-red'
             }`}
-            onClick={() => setActiveFormat(format)}
+            onClick={() => handleFormatChange(format)}
           >
             {format}
           </button>

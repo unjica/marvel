@@ -6,6 +6,7 @@ This implementation follows all the requirements specified in the challenge:
 
 - Displays a grid of Marvel comics fetched from the Marvel API
 - Implements filtering functionality via a header menu based on format (Comic, Magazine, Digital Comic)
+- Persists filter selection in LocalStorage for better user experience
 - Shows a detailed modal with comic information when "More info" is clicked
 - Features infinite scrolling for pagination with automatic data fetching
 - Uses TypeScript for type safety and better developer experience
@@ -28,6 +29,7 @@ This implementation follows all the requirements specified in the challenge:
 - Price Formatting: Centralized utility with proper currency formatting and edge cases
 - Environment Variables: Secure API key management with example file
 - Modern State Management: Using TanStack Query for efficient data fetching and caching
+- User Preferences: Persistence of filter selection in LocalStorage
 - Animations: Smooth transitions and animations using Framer Motion
 - Accessibility: Keyboard navigation support
 - Performance Optimization: 
