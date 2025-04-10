@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, Suspense, lazy } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import Header from './components/Header';
-import ComicList from './components/ComicList';
 import { getStoredFilter } from './utils/storage';
+
+// Lazy load components
+const ComicList = lazy(() => import('./components/ComicList'));
 
 // Create a client
 const queryClient = new QueryClient({
@@ -29,7 +31,9 @@ const App: React.FC = () => {
           setActiveFormat={setActiveFormat} 
         />
         <main className="flex-grow">
-          <ComicList activeFormat={activeFormat} />
+          <Suspense fallback={<div className="container mx-auto px-4 py-8">Loading comics...</div>}>
+            <ComicList activeFormat={activeFormat} />
+          </Suspense>
         </main>
         <footer className="bg-gray-100 py-4 text-center text-gray-600">
           <p>Data provided by Marvel. © 2025 Marvel</p>

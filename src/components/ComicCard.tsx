@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, Suspense, lazy } from 'react';
 import { Comic } from '../types/types';
-import ComicDetailModal from './ComicDetailModal';
 import { formatPrice } from '../utils/price';
+
+// Lazy load the modal component
+const ComicDetailModal = lazy(() => import('./ComicDetailModal'));
 
 interface ComicCardProps {
   comic: Comic;
@@ -21,6 +23,7 @@ const ComicCard: React.FC<ComicCardProps> = ({ comic }) => {
           alt={comic.title} 
           className="w-full mx-auto aspect-[2/3] object-contain"
           loading="lazy"
+          decoding="async"
         />
         <div className="h-full flex flex-col gap-2 items-center text-center">
           <h3 className="text-sm font-semibold line-clamp-2 mb-auto">{comic.title}</h3>
@@ -34,11 +37,13 @@ const ComicCard: React.FC<ComicCardProps> = ({ comic }) => {
           </button>
         </div>
       </div>
-      <ComicDetailModal 
-        comic={comic} 
-        isOpen={showModal} 
-        onClose={() => setShowModal(false)} 
-      />
+      <Suspense fallback={null}>
+        <ComicDetailModal 
+          comic={comic} 
+          isOpen={showModal} 
+          onClose={() => setShowModal(false)} 
+        />
+      </Suspense>
     </>
   );
 };

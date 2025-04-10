@@ -77,12 +77,15 @@ This implementation follows all the requirements specified in the challenge:
 - Accessible error messages with proper ARIA attributes
 
 ### Performance Optimizations
-- Lazy loading for all images
+- Lazy loading for all images with `loading="lazy"` and `decoding="async"`
+- Code splitting with React.lazy and Suspense
 - Optimized animations with Framer Motion
 - Efficient data fetching with TanStack Query
 - Memoization of components and callbacks
 - Progressive loading for better user experience
 - Loading skeletons for smooth transitions
+- Component-level code splitting for better initial load time
+- Suspense boundaries for graceful loading states
 
 ### Accessibility Implementation
 - Semantic HTML structure with proper roles and labels
@@ -172,4 +175,13 @@ The app uses the Marvel Comics API with environment-specific authentication:
   - API keys are expired
   - Environment variables are not properly configured in production
 - The app includes error handling for authentication failures
-- Users are notified when API requests fail 
+- Users are notified when API requests fail
+
+### Code Splitting Implementation
+- React.lazy for dynamic imports of major components
+- Suspense boundaries with appropriate fallbacks
+- Lazy loading of modal component
+- Optimized initial bundle size
+- Improved Time to Interactive (TTI)
+- Better resource utilization
+- Progressive component loading 
