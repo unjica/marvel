@@ -3,6 +3,7 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { Comic } from '../types/types';
 import ComicCard from './ComicCard';
+import SkeletonCard from './SkeletonCard';
 import Breadcrumbs from './Breadcrumbs';
 
 interface ComicListProps {
@@ -87,6 +88,12 @@ const ComicList: React.FC<ComicListProps> = ({ activeFormat }) => {
     return Array.from(uniqueComics.values());
   }, [data]);
 
+  const renderSkeletonCards = (count: number, prefix: string) => {
+    return Array.from({ length: count }).map((_, index) => (
+      <SkeletonCard key={`${prefix}-${index}`} />
+    ));
+  };
+
   return (
     <div className="container mx-auto px-4 py-8">
       <div ref={topRef}></div>
@@ -100,16 +107,19 @@ const ComicList: React.FC<ComicListProps> = ({ activeFormat }) => {
       )}
       
       <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {comics.map((comic: Comic) => (
-          <ComicCard key={comic.id} comic={comic} />
-        ))}
+        {isFetching && !isFetchingNextPage ? (
+          // Show skeleton cards for initial load
+          renderSkeletonCards(20, 'skeleton')
+        ) : (
+          // Show actual comic cards
+          comics.map((comic: Comic) => (
+            <ComicCard key={comic.id} comic={comic} />
+          ))
+        )}
+        
+        {/* Show skeleton cards at the bottom when fetching more */}
+        {isFetchingNextPage && renderSkeletonCards(20, 'skeleton-next')}
       </div>
-      
-      {(isFetching || isFetchingNextPage) && (
-        <div className="flex justify-center items-center py-8">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-600"></div>
-        </div>
-      )}
       
       {hasNextPage && <div ref={observerTarget} className="h-20"></div>}
     </div>

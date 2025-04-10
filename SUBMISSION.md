@@ -17,6 +17,7 @@ This implementation follows all the requirements specified in the challenge:
 - Implements keyboard navigation (ESC to close modal)
 - Features smooth animations using Framer Motion
 - Implements lazy loading for images
+- Shows loading skeletons for better UX during data fetching
 
 ## Extra Credits Implemented
 
@@ -32,6 +33,8 @@ This implementation follows all the requirements specified in the challenge:
 - Performance Optimization: 
   - Memoization and efficient data fetching
   - Lazy loading for images
+  - Optimized animations with hardware acceleration
+  - Loading skeletons for better UX
 - Responsive Design: Works seamlessly across different screen sizes
 - Clean Code Architecture: Well-organized component structure and separation of concerns
 
@@ -51,6 +54,7 @@ This implementation follows all the requirements specified in the challenge:
 - Keyboard navigation support
 - Hover effects for interactive elements
 - Lazy loaded images
+- Loading skeletons with smooth animations
 
 ### Error Handling
 - Graceful handling of failed image loads with placeholder images
@@ -60,10 +64,12 @@ This implementation follows all the requirements specified in the challenge:
 - Automatic retry mechanism for failed requests
 
 ### Performance Optimizations
+- Lazy loading for all images
 - Optimized animations with Framer Motion
 - Efficient data fetching with TanStack Query
 - Memoization of components and callbacks
 - Progressive loading for better user experience
+- Loading skeletons for smooth transitions
 
 ## Issues Faced and Solutions
 
@@ -73,7 +79,18 @@ This implementation follows all the requirements specified in the challenge:
 
 2. Modal Animations
    - Issue: Implementing smooth and performant animations for the modal
-   - Solution: Used Framer Motion
+   - Solution: Used Framer Motion 
+
+3. Image Loading
+   - Issue: Optimizing image loading performance
+   - Solution: Implemented lazy loading with placeholder images and proper fallbacks
+
+4. Loading States
+   - Issue: Providing smooth transitions during data fetching
+   - Solution: Implemented loading skeletons with Framer Motion animations
+   - Created reusable SkeletonCard component
+   - Optimized performance with hardware acceleration
+   - Maintained consistent layout during loading
 
 ## Requirements Not Implemented
 
@@ -89,4 +106,5 @@ This implementation follows all the requirements specified in the challenge:
 - All components are properly typed and documented
 - The application includes proper error boundaries and loading states
 - The code is organized in a clean, modular structure
-- Performance optimizations include lazy loading and efficient animations 
+- Performance optimizations include lazy loading and efficient animations
+- Loading skeletons provide a smooth user experience during data fetching 

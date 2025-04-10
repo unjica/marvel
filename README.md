@@ -15,6 +15,7 @@ A React application that displays Marvel comics using the Marvel API.
 - Keyboard navigation support (ESC to close modal)
 - Smooth animations using Framer Motion
 - Lazy loading for images
+- Loading skeletons for better UX
 
 ## Project Structure
 
@@ -25,6 +26,7 @@ src/
 │   ├── ComicDetailModal.tsx # Modal for displaying comic details with Framer Motion animations
 │   ├── ComicFilter.tsx     # Component for filtering comics by format
 │   ├── ComicList.tsx       # Main component for displaying the list of comics
+│   ├── SkeletonCard.tsx    # Loading skeleton component with animations
 │   └── Header.tsx          # Header component with logo and filters
 ├── types/
 │   └── types.ts            # TypeScript type definitions for API responses
@@ -38,11 +40,19 @@ src/
 
 ### ComicCard
 Displays a single comic with:
-- Thumbnail image
+- Lazy loaded thumbnail image
 - Title
 - Price
 - "More info" button to open the detail modal
 - Responsive design for different screen sizes
+
+### SkeletonCard
+Loading placeholder component that:
+- Matches the layout of ComicCard
+- Uses Framer Motion for smooth animations
+- Implements a pulsing animation effect
+- Shows placeholders for image, title, price, and button
+- Provides visual feedback during loading states
 
 ### ComicDetailModal
 Shows detailed information about a comic:
@@ -75,6 +85,9 @@ Main component that:
 - Deduplicates comics to prevent duplicates
 - Optimizes performance with memoization
 - Implements lazy loading for images
+- Shows loading skeletons during data fetching:
+  - 20 skeleton cards when fetching more comics
+  - Smooth transitions between loading and loaded states
 
 ## Styling
 
@@ -95,6 +108,7 @@ The application uses Framer Motion for smooth animations:
 - Smooth transitions between states
 - Optimized performance with hardware acceleration
 - Gesture support for interactive elements
+- Loading skeleton animations with pulsing effect
 
 ## Data Management
 
@@ -114,6 +128,13 @@ The application uses TanStack Query for efficient data management:
 - Lazy loading for all images
 - Optimized image sizes and formats
 - Progressive loading for better user experience
+
+### Loading States
+- Skeleton loading for initial data fetch
+- Skeleton loading for infinite scroll
+- Smooth transitions between states
+- Optimized performance with hardware acceleration
+- Consistent layout during loading
 
 ## Utilities
 
@@ -168,13 +189,11 @@ The app uses the Marvel Comics API to fetch comic data. The API key should be st
 
 ## Future Improvements
 
-- URL Sync for Pages
 - Add search functionality
 - Implement sorting options
 - Add favorites/bookmarks
 - Add unit tests
 - Add offline support with TanStack Query's persistence
 - Add dark mode support
-- Add loading skeletons for better UX
 - Add analytics tracking
 
