@@ -102,7 +102,8 @@ src/
 │   ├── SkeletonCard.tsx    # Loading skeleton component with animations
 │   ├── Header.tsx          # Header component with logo and filters
 │   ├── Breadcrumbs.tsx     # Navigation breadcrumbs component
-│   └── ErrorMessage.tsx    # Reusable error message component with retry functionality
+│   ├── ErrorMessage.tsx    # Reusable error message component with retry functionality
+│   └── Loader.tsx          # Loading spinner component
 ├── types/
 │   └── types.ts            # TypeScript type definitions for API responses
 ├── utils/
@@ -174,6 +175,9 @@ Reusable error component with:
 - Accessibility support
 - Responsive design
 - Consistent styling
+
+#### Loader
+Loading spinner component
 
 ### Utilities
 

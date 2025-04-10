@@ -54,9 +54,11 @@ This implementation follows all the requirements specified in the challenge:
 ### Data Management
 - Uses TanStack Query for efficient data fetching and caching
 - Implements automatic background revalidation
-- Configurable stale time and garbage collection
+- Configurable stale time (5 minutes) and garbage collection time (30 minutes)
 - Deduplication of comic entries
 - Optimized loading states
+- Filter persistence using LocalStorage with automatic state restoration
+- Default filter handling with fallback to 'Comic' format
 
 ### UI/UX Features
 - Responsive grid layout with proper spacing
@@ -123,15 +125,22 @@ This implementation follows all the requirements specified in the challenge:
    - Issue: Handling various price formats and edge cases in the Marvel API response
    - Solution: Created a robust price formatting utility with proper edge case handling
 
-2. Modal Animations
+2. Filter Persistence
+   - Issue: Maintaining user's filter preference across page reloads
+   - Solution: Implemented LocalStorage integration with proper type safety and error handling
+   - Created utility functions for storage operations
+   - Added default fallback for new users
+   - Ensured smooth state restoration on page load
+
+3. Modal Animations
    - Issue: Implementing smooth and performant animations for the modal
    - Solution: Used Framer Motion 
 
-3. Image Loading
+4. Image Loading
    - Issue: Optimizing image loading performance
    - Solution: Implemented lazy loading with placeholder images and proper fallbacks
 
-4. Loading States
+5. Loading States
    - Issue: Providing smooth transitions during data fetching
    - Solution: Implemented loading skeletons with Framer Motion animations
    - Created reusable SkeletonCard component

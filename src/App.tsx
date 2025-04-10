@@ -2,6 +2,7 @@ import React, { useState, Suspense, lazy } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import Header from './components/Header';
 import { getStoredFilter } from './utils/storage';
+import Loader from './components/Loader';
 
 // Lazy load components
 const ComicList = lazy(() => import('./components/ComicList'));
@@ -31,7 +32,7 @@ const App: React.FC = () => {
           setActiveFormat={setActiveFormat} 
         />
         <main className="flex-grow">
-          <Suspense fallback={<div className="container mx-auto px-4 py-8">Loading comics...</div>}>
+          <Suspense fallback={<Loader />}>
             <ComicList activeFormat={activeFormat} />
           </Suspense>
         </main>
