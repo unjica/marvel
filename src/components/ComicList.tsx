@@ -113,12 +113,16 @@ const ComicList: React.FC<ComicListProps> = ({ activeFormat }) => {
       <Breadcrumbs activeFormat={activeFormat} />
       
       {error && (
-        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4">
+        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
           Failed to fetch comics. Please try again later.
         </div>
       )}
       
-      <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      <div 
+        className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6" 
+        id="comic-list" 
+        role="list"
+      >
         {isFetching && !isFetchingNextPage ? (
           // Show skeleton cards for initial load
           renderSkeletonCards(20, 'skeleton')
@@ -133,7 +137,7 @@ const ComicList: React.FC<ComicListProps> = ({ activeFormat }) => {
         {isFetchingNextPage && renderSkeletonCards(20, 'skeleton-next')}
       </div>
       
-      {hasNextPage && <div ref={observerTarget} className="h-20"></div>}
+      {hasNextPage && <div ref={observerTarget} className="h-20" aria-hidden="true"></div>}
     </div>
   );
 };

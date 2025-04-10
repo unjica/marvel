@@ -11,12 +11,12 @@ const Header: React.FC<HeaderProps> = ({ formats, activeFormat, setActiveFormat 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 bg-black z-50">
+    <header className="sticky top-0 bg-black z-50" role="banner">
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center gap-3">
           <img 
             src="/logo2.svg" 
-            alt="logo"
+            alt="Marvel Comics logo"
             className="h-12" 
           />
           
@@ -25,8 +25,10 @@ const Header: React.FC<HeaderProps> = ({ formats, activeFormat, setActiveFormat 
             className="md:hidden text-white ml-auto"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             aria-label="Toggle menu"
+            aria-expanded={isMenuOpen}
+            aria-controls="mobile-menu"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8 transition-transform duration-300">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8 transition-transform duration-300" aria-hidden="true">
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -54,6 +56,7 @@ const Header: React.FC<HeaderProps> = ({ formats, activeFormat, setActiveFormat 
 
         {/* Mobile menu */}
         <div 
+          id="mobile-menu"
           className={`md:hidden transition-all duration-300 ease-in-out ${
             isMenuOpen 
               ? 'max-h-96 opacity-100 mt-4' 

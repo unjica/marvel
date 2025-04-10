@@ -14,8 +14,12 @@ const ComicFilter: React.FC<ComicFilterProps> = ({ formats, activeFormat, setAct
   };
 
   return (
-    <div className="flex flex-col md:flex-row md:space-x-2">
-      <div className="flex flex-col md:flex-row gap-2">
+    <div 
+      className="flex flex-col md:flex-row md:space-x-2" 
+      role="navigation" 
+      aria-label="Comic format filter"
+    >
+      <div className="flex flex-col md:flex-row gap-2" role="tablist">
         <button 
           className={`filter-btn transition-colors duration-200 ${
             activeFormat === 'All' 
@@ -23,6 +27,9 @@ const ComicFilter: React.FC<ComicFilterProps> = ({ formats, activeFormat, setAct
               : 'text-white hover:text-marvel-red'
           }`}
           onClick={() => handleFormatChange('All')}
+          role="tab"
+          aria-selected={activeFormat === 'All'}
+          aria-controls="comic-list"
         >
           All
         </button>
@@ -35,6 +42,9 @@ const ComicFilter: React.FC<ComicFilterProps> = ({ formats, activeFormat, setAct
                 : 'text-white hover:text-marvel-red'
             }`}
             onClick={() => handleFormatChange(format)}
+            role="tab"
+            aria-selected={activeFormat === format}
+            aria-controls="comic-list"
           >
             {format}
           </button>

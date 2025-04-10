@@ -12,7 +12,10 @@ const ComicCard: React.FC<ComicCardProps> = ({ comic }) => {
 
   return (
     <>
-      <div className="rounded-lg border-2 border-black overflow-hidden hover:shadow-xl hover:translate-y-[-5px] transition duration-200 flex flex-col gap-3 p-4">
+      <div 
+        className="rounded-lg border-2 border-black overflow-hidden hover:shadow-xl hover:translate-y-[-5px] transition duration-200 flex flex-col gap-3 p-4" 
+        role="article"
+      >
         <img 
           src={`${comic.thumbnail.path}.${comic.thumbnail.extension}`} 
           alt={comic.title} 
@@ -25,6 +28,7 @@ const ComicCard: React.FC<ComicCardProps> = ({ comic }) => {
           <button 
             className="btn"
             onClick={() => setShowModal(true)}
+            aria-label={`View details for ${comic.title}`}
           >
             More info
           </button>

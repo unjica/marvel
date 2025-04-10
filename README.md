@@ -17,6 +17,50 @@ A React application that displays Marvel comics using the Marvel API.
 - Smooth animations using Framer Motion
 - Lazy loading for images
 - Loading skeletons for better UX
+- Comprehensive accessibility features
+
+## Accessibility Features
+
+The application implements comprehensive accessibility features to ensure it can be used by everyone:
+
+### Semantic HTML Structure
+- Proper use of semantic HTML elements (`nav`, `header`, `article`, etc.)
+- Appropriate ARIA roles and labels for interactive elements
+- Clear content hierarchy with proper heading structure
+
+### Interactive Elements
+- Descriptive `aria-label` attributes for buttons and controls
+- Proper `role` attributes for navigation and interactive components
+- Tab-based navigation support with `role="tablist"` and `role="tab"`
+- Clear indication of selected states with `aria-selected`
+
+### Modal Dialog
+- Proper modal dialog implementation with `role="dialog"`
+- Clear modal title association with `aria-labelledby`
+- Keyboard support for closing (ESC key)
+- Focus management for modal content
+- Backdrop click handling for closing
+
+### Navigation
+- Breadcrumb navigation with proper ARIA labeling
+- Mobile menu with proper expand/collapse states
+- Clear indication of current page/selection
+- Proper menu structure for screen readers
+
+### Images and Media
+- Descriptive `alt` text for all images
+- Decorative images marked with `aria-hidden="true"`
+- Lazy loading with proper fallbacks
+
+### Error Handling
+- Error messages with proper `role="alert"`
+- Clear error state indication
+- Accessible error recovery options
+
+### Responsive Design
+- Accessible mobile menu implementation
+- Proper touch target sizes
+- Clear visual hierarchy across all screen sizes
 
 ## Project Structure
 

@@ -19,6 +19,7 @@ This implementation follows all the requirements specified in the challenge:
 - Features smooth animations using Framer Motion
 - Implements lazy loading for images
 - Shows loading skeletons for better UX during data fetching
+- Implements comprehensive accessibility features for all users
 
 ## Extra Credits Implemented
 
@@ -31,7 +32,15 @@ This implementation follows all the requirements specified in the challenge:
 - Modern State Management: Using TanStack Query for efficient data fetching and caching
 - User Preferences: Persistence of filter selection in LocalStorage
 - Animations: Smooth transitions and animations using Framer Motion
-- Accessibility: Keyboard navigation support
+- Accessibility: 
+  - Semantic HTML structure with proper ARIA roles and labels
+  - Keyboard navigation support
+  - Screen reader compatibility
+  - Proper modal dialog implementation
+  - Accessible mobile menu
+  - Descriptive image alt text
+  - Error handling with proper ARIA attributes
+  - Responsive design with accessibility in mind
 - Performance Optimization: 
   - Memoization and efficient data fetching
   - Lazy loading for images
@@ -57,6 +66,7 @@ This implementation follows all the requirements specified in the challenge:
 - Hover effects for interactive elements
 - Lazy loaded images
 - Loading skeletons with smooth animations
+- Comprehensive accessibility features
 
 ### Error Handling
 - Graceful handling of failed image loads with placeholder images
@@ -64,6 +74,7 @@ This implementation follows all the requirements specified in the challenge:
 - Network error handling with appropriate feedback
 - Invalid date handling with fallback values
 - Automatic retry mechanism for failed requests
+- Accessible error messages with proper ARIA attributes
 
 ### Performance Optimizations
 - Lazy loading for all images
@@ -72,6 +83,17 @@ This implementation follows all the requirements specified in the challenge:
 - Memoization of components and callbacks
 - Progressive loading for better user experience
 - Loading skeletons for smooth transitions
+
+### Accessibility Implementation
+- Semantic HTML structure with proper roles and labels
+- ARIA attributes for interactive elements
+- Keyboard navigation support
+- Screen reader compatibility
+- Accessible modal dialog
+- Mobile menu accessibility
+- Proper image descriptions
+- Error handling with accessibility in mind
+- Responsive design with accessibility considerations
 
 ## Issues Faced and Solutions
 

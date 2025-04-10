@@ -81,8 +81,9 @@ const ComicDetailModal: React.FC<ComicDetailModalProps> = ({ comic, isOpen, onCl
             <button 
               className="absolute top-1 right-1 text-marvel-red"
               onClick={onClose}
+              aria-label="Close modal"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-8 h-8">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-8 h-8" aria-hidden="true">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
               </svg>
             </button>
@@ -96,9 +97,13 @@ const ComicDetailModal: React.FC<ComicDetailModalProps> = ({ comic, isOpen, onCl
               />
               
               <div className="w-full md:w-2/3">
-                <h2 className="font-bold mb-4">{comic.title}</h2>
+                <h2 id="comic-modal-title" className="font-bold mb-4">{comic.title}</h2>
 
-                <div className="space-y-2 mb-6 text-sm">
+                <div 
+                  className="space-y-2 mb-6 text-sm" 
+                  role="region" 
+                  aria-label="Comic details"
+                >
                   <p className="truncate text-ellipsis"><b>Year of release:</b> {getReleaseDate(comic.dates)}</p>
                   <p className="truncate text-ellipsis"><b>Format:</b> {comic.format || 'Unknown'}</p>
                   <p className="truncate text-ellipsis"><b>Pages:</b> {comic.pageCount || 'Unknown'}</p>
@@ -122,6 +127,7 @@ const ComicDetailModal: React.FC<ComicDetailModalProps> = ({ comic, isOpen, onCl
                   <button 
                     className="btn"
                     onClick={onClose}
+                    aria-label="Close modal"
                   >
                     Close
                   </button>
