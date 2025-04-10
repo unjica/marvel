@@ -8,10 +8,14 @@ interface ComicFilterProps {
 
 const ComicFilter: React.FC<ComicFilterProps> = ({ formats, activeFormat, setActiveFormat }) => {
   return (
-    <div className="filter">
-      <div className="filter__list">
+    <div className="flex space-x-2">
+      <div className="flex flex-wrap gap-2">
         <button 
-          className={activeFormat === 'All' ? 'filter__button--active' : 'filter__button'} 
+          className={`bg-transparent px-4 py-2 text-sm font-medium transition-colors duration-200 ${
+            activeFormat === 'All' 
+              ? 'text-marvel-red' 
+              : 'text-white hover:text-marvel-red'
+          }`}
           onClick={() => setActiveFormat('All')}
         >
           All
@@ -19,7 +23,11 @@ const ComicFilter: React.FC<ComicFilterProps> = ({ formats, activeFormat, setAct
         {formats.map(format => (
           <button
             key={format}
-            className={activeFormat === format ? 'filter__button--active' : 'filter__button'}
+            className={`bg-transparent px-4 py-2 text-sm font-medium transition-colors duration-200 ${
+              activeFormat === format 
+                ? 'text-marvel-red' 
+                : 'text-white hover:text-marvel-red'
+            }`}
             onClick={() => setActiveFormat(format)}
           >
             {format}

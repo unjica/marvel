@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import './App.css';
 import Header from './components/Header';
 import ComicList from './components/ComicList';
 
@@ -22,16 +21,16 @@ const App: React.FC = () => {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <div className="app-layout">
+      <div className="min-h-screen flex flex-col">
         <Header 
           formats={formats} 
           activeFormat={activeFormat} 
           setActiveFormat={setActiveFormat} 
         />
-        <main className="app-main">
+        <main className="flex-grow pt-24">
           <ComicList activeFormat={activeFormat} />
         </main>
-        <footer className="app-footer">
+        <footer className="bg-gray-100 py-4 text-center text-gray-600">
           <p>Data provided by Marvel. © 2025 Marvel</p>
         </footer>
       </div>

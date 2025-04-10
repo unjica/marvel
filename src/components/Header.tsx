@@ -9,11 +9,12 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ formats, activeFormat, setActiveFormat }) => {
   return (
-    <header className="app-header">
-      <div className="app-header__content">
+    <header className="fixed top-0 left-0 right-0 bg-black z-50">
+      <div className="container mx-auto px-4 py-4 flex gap-4 items-center">
         <img 
           src="/logo2.svg" 
-          alt="logo" 
+          alt="logo"
+          className="h-12" 
         />
         <ComicFilter 
           formats={formats} 

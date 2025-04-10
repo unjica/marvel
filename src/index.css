@@ -1,3 +1,29 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    font-size: 17px;
+  }
+  
+  @media (min-width: 640px) {
+    html {
+      font-size: 15px;
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    html {
+      font-size: 19px;
+    }
+  }
+}
+
+.btn {
+  @apply bg-marvel-red text-white px-10 py-2 rounded hover:bg-marvel-red/80 transition-colors duration-200;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',

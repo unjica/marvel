@@ -8,7 +8,7 @@ A React application that displays Marvel comics using the Marvel API.
 - Infinite scrolling for loading more comics
 - Filter comics by format (Comic, Magazine, Digital Comic)
 - View comic details in a modal
-- Responsive design
+- Responsive design with Tailwind CSS
 - Error handling for failed image loads
 - Price formatting utility
 - Efficient data fetching and caching with TanStack Query
@@ -69,6 +69,16 @@ Main component that:
 - Deduplicates comics to prevent duplicates
 - Optimizes performance with memoization
 
+## Styling
+
+### Tailwind CSS
+The application uses Tailwind CSS for styling with the following configuration:
+- Base font size: 17px
+- Small screens (sm, 640px+): 15px
+- Large screens (lg, 1024px+): 19px
+- Custom Marvel colors:
+  - Red: #ED1D24
+
 ## Data Management
 
 ### TanStack Query Implementation
@@ -111,7 +121,7 @@ The `formatPrice` utility function in `src/utils/price.ts` handles price formatt
 - React
 - TypeScript
 - Marvel API
-- CSS (with BEM methodology)
+- Tailwind CSS
 - Axios for API requests
 - TanStack Query for data fetching and caching
 
@@ -126,6 +136,7 @@ The app uses the Marvel Comics API to fetch comic data. The API key should be st
 - Loading states are shown during data fetching
 - Automatic retry mechanism for failed requests
 - Deduplication of comic entries to prevent duplicates
+- Invalid dates are handled gracefully with 'Unknown' fallback
 
 ## Future Improvements
 

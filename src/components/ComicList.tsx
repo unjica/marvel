@@ -88,26 +88,30 @@ const ComicList: React.FC<ComicListProps> = ({ activeFormat }) => {
   }, [data]);
 
   return (
-    <div className="comic-list">
-      <div ref={topRef} className="top-ref"></div>
+    <div className="container mx-auto px-4 py-8">
+      <div ref={topRef}></div>
       
       <Breadcrumbs activeFormat={activeFormat} />
       
-      {error && <div className="error">Failed to fetch comics. Please try again later.</div>}
+      {error && (
+        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4">
+          Failed to fetch comics. Please try again later.
+        </div>
+      )}
       
-      <div className="comic-list__grid">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {comics.map((comic: Comic) => (
           <ComicCard key={comic.id} comic={comic} />
         ))}
       </div>
       
       {(isFetching || isFetchingNextPage) && (
-        <div className="loading">
-          <span className="loader"></span>
+        <div className="flex justify-center items-center py-8">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-600"></div>
         </div>
       )}
       
-      {hasNextPage && <div ref={observerTarget} className="observer"></div>}
+      {hasNextPage && <div ref={observerTarget} className="h-20"></div>}
     </div>
   );
 };
