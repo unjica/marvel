@@ -18,6 +18,7 @@ A React application that displays Marvel comics using the Marvel API.
 - Lazy loading for images
 - Loading skeletons for better UX
 - Comprehensive accessibility features
+- Focus trap implementation for modal dialogs
 
 ## Accessibility Features
 
@@ -40,6 +41,13 @@ The application implements comprehensive accessibility features to ensure it can
 - Keyboard support for closing (ESC key)
 - Focus management for modal content
 - Backdrop click handling for closing
+- Focus trap implementation that:
+  - Keeps focus within the modal when open
+  - Cycles focus between first and last elements
+  - Prevents focus from escaping the modal
+  - Automatically focuses first element on open
+  - Handles both Tab and Shift+Tab navigation
+- Body scroll lock when modal is open
 
 ### Navigation
 - Breadcrumb navigation with proper ARIA labeling
@@ -61,6 +69,13 @@ The application implements comprehensive accessibility features to ensure it can
 - Accessible mobile menu implementation
 - Proper touch target sizes
 - Clear visual hierarchy across all screen sizes
+
+### Keyboard Navigation
+- Full keyboard support for all interactive elements
+- Logical tab order throughout the application
+- Focus trap in modal dialogs
+- ESC key support for closing modals
+- Proper focus management for screen readers
 
 ## Project Structure
 

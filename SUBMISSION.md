@@ -92,11 +92,30 @@ This implementation follows all the requirements specified in the challenge:
 - ARIA attributes for interactive elements
 - Keyboard navigation support
 - Screen reader compatibility
-- Accessible modal dialog
+- Accessible modal dialog with focus trap
 - Mobile menu accessibility
 - Proper image descriptions
 - Error handling with accessibility in mind
 - Responsive design with accessibility considerations
+- Focus trap implementation for modal dialogs that:
+  - Maintains focus within the modal
+  - Handles Tab and Shift+Tab navigation
+  - Automatically focuses first element
+  - Prevents focus from escaping
+  - Supports ESC key for closing
+  - Locks body scroll when open
+  - Handles click outside to close
+
+### Keyboard Navigation
+- Comprehensive keyboard support throughout the application
+- Logical tab order for all interactive elements
+- Focus trap implementation in modal dialogs
+- ESC key support for closing modals
+- Proper focus management for screen readers
+- Tab and Shift+Tab navigation support
+- Automatic focus management on modal open/close
+- Click outside handling for modals
+- Body scroll lock during modal display
 
 ## Issues Faced and Solutions
 
