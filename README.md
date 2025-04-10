@@ -4,15 +4,17 @@ A React application that displays Marvel comics using the Marvel API.
 
 ## Features
 
-- Display a list of Marvel comics
-- Infinite scrolling for loading more comics
+- Display a list of Marvel comics with infinite scrolling
 - Filter comics by format (Comic, Magazine, Digital Comic)
-- View comic details in a modal
+- View detailed comic information in a modal with smooth animations
 - Responsive design with Tailwind CSS
 - Error handling for failed image loads
 - Price formatting utility
 - Efficient data fetching and caching with TanStack Query
 - Automatic data revalidation and background updates
+- Keyboard navigation support (ESC to close modal)
+- Smooth animations using Framer Motion
+- Lazy loading for images
 
 ## Project Structure
 
@@ -20,15 +22,16 @@ A React application that displays Marvel comics using the Marvel API.
 src/
 ├── components/
 │   ├── ComicCard.tsx       # Card component for displaying individual comics
-│   ├── ComicDetailModal.tsx # Modal for displaying comic details
+│   ├── ComicDetailModal.tsx # Modal for displaying comic details with Framer Motion animations
 │   ├── ComicFilter.tsx     # Component for filtering comics by format
 │   ├── ComicList.tsx       # Main component for displaying the list of comics
 │   └── Header.tsx          # Header component with logo and filters
 ├── types/
-│   └── types.ts            # TypeScript type definitions
+│   └── types.ts            # TypeScript type definitions for API responses
 ├── utils/
 │   └── price.ts            # Utility functions for price formatting
-└── App.tsx                 # Main application component
+├── App.tsx                 # Main application component
+└── index.tsx               # Application entry point
 ```
 
 ## Components
@@ -39,19 +42,22 @@ Displays a single comic with:
 - Title
 - Price
 - "More info" button to open the detail modal
+- Responsive design for different screen sizes
 
 ### ComicDetailModal
 Shows detailed information about a comic:
 - Large thumbnail
 - Title
-- Release date
+- Release date (formatted in Slovenian locale)
 - Format
 - Page count
-- Characters
-- Creators
-- Diamond code
+- Characters list
+- Creators list with roles
+- Diamond code (if available)
 - Price
-- Close button
+- Close button with hover effect
+- ESC key support for closing
+- Smooth animations using Framer Motion for opening/closing and transitions
 
 ### ComicFilter
 Allows filtering comics by format:
@@ -68,6 +74,7 @@ Main component that:
 - Renders the grid of comic cards
 - Deduplicates comics to prevent duplicates
 - Optimizes performance with memoization
+- Implements lazy loading for images
 
 ## Styling
 
@@ -78,6 +85,16 @@ The application uses Tailwind CSS for styling with the following configuration:
 - Large screens (lg, 1024px+): 19px
 - Custom Marvel colors:
   - Red: #ED1D24
+- Responsive grid layouts
+- Smooth transitions and animations
+- Hover effects for interactive elements
+
+### Animations
+The application uses Framer Motion for smooth animations:
+- Modal entrance and exit animations
+- Smooth transitions between states
+- Optimized performance with hardware acceleration
+- Gesture support for interactive elements
 
 ## Data Management
 
@@ -90,6 +107,13 @@ The application uses TanStack Query for efficient data management:
 - Efficient infinite scrolling implementation
 - Automatic retry on failed requests
 - Configurable stale time (5 minutes) and garbage collection time (30 minutes)
+
+## Performance Optimizations
+
+### Image Loading
+- Lazy loading for all images
+- Optimized image sizes and formats
+- Progressive loading for better user experience
 
 ## Utilities
 
@@ -118,12 +142,15 @@ The `formatPrice` utility function in `src/utils/price.ts` handles price formatt
 
 ## Technologies Used
 
-- React
-- TypeScript
+- React 19.1.0
+- TypeScript 4.9.5
 - Marvel API
-- Tailwind CSS
-- Axios for API requests
-- TanStack Query for data fetching and caching
+- Tailwind CSS 3.3.0
+- Framer Motion for animations
+- Axios 1.8.4 for API requests
+- TanStack Query 5.72.2 for data fetching and caching
+- PostCSS with nesting support
+- Testing libraries (Jest, React Testing Library)
 
 ## API Integration
 
@@ -137,14 +164,17 @@ The app uses the Marvel Comics API to fetch comic data. The API key should be st
 - Automatic retry mechanism for failed requests
 - Deduplication of comic entries to prevent duplicates
 - Invalid dates are handled gracefully with 'Unknown' fallback
+- Network errors are handled with appropriate user feedback
 
 ## Future Improvements
 
+- URL Sync for Pages
 - Add search functionality
 - Implement sorting options
 - Add favorites/bookmarks
-- Improve accessibility
 - Add unit tests
-- Implement optimistic updates for better UX
 - Add offline support with TanStack Query's persistence
+- Add dark mode support
+- Add loading skeletons for better UX
+- Add analytics tracking
 

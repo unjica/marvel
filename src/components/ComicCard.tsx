@@ -17,6 +17,7 @@ const ComicCard: React.FC<ComicCardProps> = ({ comic }) => {
           src={`${comic.thumbnail.path}.${comic.thumbnail.extension}`} 
           alt={comic.title} 
           className="w-full mx-auto aspect-[2/3] object-contain"
+          loading="lazy"
         />
         <div className="h-full flex flex-col gap-2 items-center text-center">
           <h3 className="text-sm font-semibold line-clamp-2 mb-auto">{comic.title}</h3>

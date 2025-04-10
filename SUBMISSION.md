@@ -5,32 +5,75 @@
 This implementation follows all the requirements specified in the challenge:
 
 - Displays a grid of Marvel comics fetched from the Marvel API
-- Implements filtering functionality via a header menu based on format
+- Implements filtering functionality via a header menu based on format (Comic, Magazine, Digital Comic)
 - Shows a detailed modal with comic information when "More info" is clicked
-- Features infinite scrolling for pagination
-- Uses TypeScript for type safety
+- Features infinite scrolling for pagination with automatic data fetching
+- Uses TypeScript for type safety and better developer experience
 - Has a responsive grid layout that works on different screen sizes
-- Implements proper error handling for failed image loads
+- Implements proper error handling for failed image loads and API errors
 - Uses environment variables for API key management
-- Follows BEM methodology for CSS class naming
 - Implements utility functions for common operations (price formatting)
+- Uses TanStack Query for efficient data fetching and caching
+- Implements keyboard navigation (ESC to close modal)
+- Features smooth animations using Framer Motion
+- Implements lazy loading for images
 
 ## Extra Credits Implemented
 
-- TypeScript: Implemented throughout the application for better type safety
-- Responsive Grid: The grid layout adjusts based on screen size
-- Infinite Scrolling: Smooth loading of additional comics
-- Error Handling: Graceful handling of failed image loads and API errors
-- Price Formatting: Centralized utility for consistent price display
-- BEM CSS: Clean and maintainable CSS class naming
-- Environment Variables: Secure API key management
+- TypeScript: Comprehensive type definitions for API responses and components
+- Responsive Grid: Adaptive grid layout with proper spacing and alignment
+- Infinite Scrolling: Smooth loading with automatic data fetching and deduplication
+- Error Handling: Comprehensive error handling for images, API calls, and network issues
+- Price Formatting: Centralized utility with proper currency formatting and edge cases
+- Environment Variables: Secure API key management with example file
+- Modern State Management: Using TanStack Query for efficient data fetching and caching
+- Animations: Smooth transitions and animations using Framer Motion
+- Accessibility: Keyboard navigation support
+- Performance Optimization: 
+  - Memoization and efficient data fetching
+  - Lazy loading for images
+- Responsive Design: Works seamlessly across different screen sizes
+- Clean Code Architecture: Well-organized component structure and separation of concerns
 
-## Issues Faced
+## Technical Details
 
-- Working with Marvel API authentication required careful handling of API keys
-- Ensuring consistent card heights with varying image and content sizes required CSS adjustments
-- Implementing infinite scrolling while maintaining smooth performance
-- Handling various price formats and edge cases in the Marvel API response
+### Data Management
+- Uses TanStack Query for efficient data fetching and caching
+- Implements automatic background revalidation
+- Configurable stale time and garbage collection
+- Deduplication of comic entries
+- Optimized loading states
+
+### UI/UX Features
+- Responsive grid layout with proper spacing
+- Smooth animations using Framer Motion
+- Loading states and error messages
+- Keyboard navigation support
+- Hover effects for interactive elements
+- Lazy loaded images
+
+### Error Handling
+- Graceful handling of failed image loads with placeholder images
+- User-friendly error messages for API failures
+- Network error handling with appropriate feedback
+- Invalid date handling with fallback values
+- Automatic retry mechanism for failed requests
+
+### Performance Optimizations
+- Optimized animations with Framer Motion
+- Efficient data fetching with TanStack Query
+- Memoization of components and callbacks
+- Progressive loading for better user experience
+
+## Issues Faced and Solutions
+
+1. Price Formatting
+   - Issue: Handling various price formats and edge cases in the Marvel API response
+   - Solution: Created a robust price formatting utility with proper edge case handling
+
+2. Modal Animations
+   - Issue: Implementing smooth and performant animations for the modal
+   - Solution: Used Framer Motion
 
 ## Requirements Not Implemented
 
@@ -39,7 +82,11 @@ This implementation follows all the requirements specified in the challenge:
 ## Notes
 
 - The application uses environment variables for the Marvel API key
-- Google Fonts (Quicksand, Roboto) were used for typography
-- The UI follows the design specifications provided in the requirements
-- The codebase follows modern React and TypeScript best practices
-- The application is well-documented with a comprehensive README 
+- The UI follows modern design principles with smooth animations using Framer Motion
+- The codebase follows React and TypeScript best practices
+- Comprehensive documentation is provided in the README
+- The application is built with scalability and maintainability in mind
+- All components are properly typed and documented
+- The application includes proper error boundaries and loading states
+- The code is organized in a clean, modular structure
+- Performance optimizations include lazy loading and efficient animations 

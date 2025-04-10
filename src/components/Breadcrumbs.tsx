@@ -6,7 +6,7 @@ interface BreadcrumbsProps {
 
 const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ activeFormat }) => {
   return activeFormat !== 'All' ? (
-    <div className="text-gray-600 text-lg mb-6">
+    <div aria-label="breadcrumb" className="text-gray-600 text-lg mb-6">
       <span>Home</span> &gt; {activeFormat}s
     </div>
   ) : null;
