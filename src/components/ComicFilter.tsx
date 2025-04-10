@@ -11,7 +11,7 @@ const ComicFilter: React.FC<ComicFilterProps> = ({ formats, activeFormat, setAct
     <div className="flex space-x-2">
       <div className="flex flex-wrap gap-2">
         <button 
-          className={`bg-transparent px-4 py-2 text-sm font-medium transition-colors duration-200 ${
+          className={`filter-btn ${
             activeFormat === 'All' 
               ? 'text-marvel-red' 
               : 'text-white hover:text-marvel-red'
@@ -23,7 +23,7 @@ const ComicFilter: React.FC<ComicFilterProps> = ({ formats, activeFormat, setAct
         {formats.map(format => (
           <button
             key={format}
-            className={`bg-transparent px-4 py-2 text-sm font-medium transition-colors duration-200 ${
+            className={`filter-btn ${
               activeFormat === format 
                 ? 'text-marvel-red' 
                 : 'text-white hover:text-marvel-red'

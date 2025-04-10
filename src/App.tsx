@@ -27,7 +27,7 @@ const App: React.FC = () => {
           activeFormat={activeFormat} 
           setActiveFormat={setActiveFormat} 
         />
-        <main className="flex-grow pt-24">
+        <main className="flex-grow">
           <ComicList activeFormat={activeFormat} />
         </main>
         <footer className="bg-gray-100 py-4 text-center text-gray-600">

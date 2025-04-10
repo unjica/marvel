@@ -19,8 +19,8 @@ const ComicCard: React.FC<ComicCardProps> = ({ comic }) => {
           className="w-full mx-auto aspect-[2/3] object-contain"
         />
         <div className="h-full flex flex-col gap-2 items-center text-center">
-          <h3 className="text-lg text-sm font-semibold line-clamp-2 mb-auto">{comic.title}</h3>
-          <p className="text-lg font-medium">{formatPrice(comic.prices)}</p>
+          <h3 className="text-sm font-semibold line-clamp-2 mb-auto">{comic.title}</h3>
+          <p className="text-xl font-medium">{formatPrice(comic.prices)}</p>
           <button 
             className="btn"
             onClick={() => setShowModal(true)}

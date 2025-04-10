@@ -33,7 +33,7 @@ const ComicDetailModal: React.FC<ComicDetailModalProps> = ({ comic, isOpen, onCl
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full mx-4 relative">
+      <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full mx-4 relative w-fit md:min-w-[650px]">
         <button 
           className="absolute top-1 right-1 text-marvel-red"
           onClick={onClose}
@@ -55,9 +55,9 @@ const ComicDetailModal: React.FC<ComicDetailModalProps> = ({ comic, isOpen, onCl
           />
           
           <div className="w-full md:w-2/3">
-            <h2 className="text-lg font-bold mb-4">{comic.title}</h2>
+            <h2 className="font-bold mb-4">{comic.title}</h2>
 
-            <div className="space-y-2 mb-6">
+            <div className="space-y-2 mb-6 text-sm">
               <p className="truncate text-ellipsis"><b>Year of release:</b> {getReleaseDate(comic.dates)}</p>
               <p className="truncate text-ellipsis"><b>Format:</b> {comic.format || 'Unknown'}</p>
               <p className="truncate text-ellipsis"><b>Pages:</b> {comic.pageCount || 'Unknown'}</p>
@@ -77,7 +77,7 @@ const ComicDetailModal: React.FC<ComicDetailModalProps> = ({ comic, isOpen, onCl
             </div>
 
             <div className="flex items-center justify-between">
-              <p className="text-lg font-bold">{formatPrice(comic.prices)}</p>
+              <p className="text-xl font-bold">{formatPrice(comic.prices)}</p>
               <button 
                 className="btn"
                 onClick={onClose}

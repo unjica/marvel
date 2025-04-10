@@ -99,7 +99,7 @@ const ComicList: React.FC<ComicListProps> = ({ activeFormat }) => {
         </div>
       )}
       
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {comics.map((comic: Comic) => (
           <ComicCard key={comic.id} comic={comic} />
         ))}

@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;700&family=Marvel:wght@400;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -5,6 +7,13 @@
 @layer base {
   html {
     font-size: 17px;
+    font-family: 'Quicksand', 'Marvel', sans-serif;
+  }
+  
+  @media (min-width: 480px) {
+    html {
+      font-size: 16px;
+    }
   }
   
   @media (min-width: 640px) {
@@ -24,9 +33,13 @@
   @apply bg-marvel-red text-white px-10 py-2 rounded hover:bg-marvel-red/80 transition-colors duration-200;
 }
 
+.filter-btn {
+  @apply bg-transparent text-lg px-4 py-2 font-medium transition-colors duration-200;
+}
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  font-family: 'Quicksand', 'Marvel', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
