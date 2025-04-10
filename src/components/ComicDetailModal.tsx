@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Comic } from '../types/types';
 import { formatPrice } from '../utils/price';
 
@@ -18,6 +18,22 @@ interface Creator {
 }
 
 const ComicDetailModal: React.FC<ComicDetailModalProps> = ({ comic, isOpen, onClose }) => {
+  useEffect(() => {
+    const handleEscKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        onClose();
+      }
+    };
+
+    if (isOpen) {
+      window.addEventListener('keydown', handleEscKey);
+    }
+
+    return () => {
+      window.removeEventListener('keydown', handleEscKey);
+    };
+  }, [isOpen, onClose]);
+
   if (!isOpen) return null;
 
   const getReleaseDate = (dates: { type: string, date: string }[]) => {

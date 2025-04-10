@@ -9,24 +9,6 @@
     font-size: 17px;
     font-family: 'Quicksand', 'Marvel', sans-serif;
   }
-  
-  @media (min-width: 480px) {
-    html {
-      font-size: 16px;
-    }
-  }
-  
-  @media (min-width: 640px) {
-    html {
-      font-size: 15px;
-    }
-  }
-  
-  @media (min-width: 1024px) {
-    html {
-      font-size: 19px;
-    }
-  }
 }
 
 .btn {
